@@ -1,0 +1,33 @@
+# Build output
+/target
+
+# Local data and run outputs (Common Crawl downloads, Parquet results)
+/data
+/out*
+*.tmp
+
+# Python baseline virtualenv / caches
+/baseline/.venv
+__pycache__/
+*.pyc
+
+# Raw profiler dumps (the rendered flamegraph SVGs are kept)
+/profiles/*.txt
+/profiles/*.folded
+
+# Personal notes and study material
+/PLAN.md
+/LEARNING_GUIDE.md
+/DECISIONS.md
+
+# Integration tests, crash/resume test and their fixtures
+# (regenerate fixtures with `python3 scripts/make_sample.py`)
+/tests/
+/crates/*/tests/
+
+# Editor / OS / tooling
+.DS_Store
+.idea/
+.vscode/
+*.swp
+.claude/

@@ -1,0 +1,29 @@
+[package]
+name = "sieve-bench"
+description = "Criterion benchmarks for Sieve stages"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+publish = false
+
+[dependencies]
+sieve-core.workspace = true
+
+[dev-dependencies]
+criterion.workspace = true
+tempfile.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies.crossbeam-channel]
+workspace = true
+
+[[bench]]
+name = "stages"
+harness = false
+
+[[bench]]
+name = "end_to_end"
+harness = false

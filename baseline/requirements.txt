@@ -1,0 +1,4 @@
+# Versions used for the README measurements.
+numpy==2.4.6
+pyarrow==26.0.0
+whatlang-pyo3==0.6.0

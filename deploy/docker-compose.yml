@@ -1,0 +1,33 @@
+# Prometheus + Grafana for watching a local `sieve run --metrics-addr 0.0.0.0:9898`.
+#
+#   docker compose -f deploy/docker-compose.yml up -d
+#   ./target/release/sieve run -i data/cc -o out/run --metrics-addr 0.0.0.0:9898 --linger-secs 30
+#   open http://localhost:3000   (anonymous viewer access; admin/admin to edit)
+#
+# Sieve runs on the host, not in a container, so Prometheus scrapes
+# host.docker.internal (built in on Docker Desktop; mapped below for Linux).
+services:
+  prometheus:
+    image: prom/prometheus:v2.53.2
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.retention.time=7d
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    ports:
+      - "9090:9090"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  grafana:
+    image: grafana/grafana:11.2.0
+    depends_on: [prometheus]
+    environment:
+      GF_AUTH_ANONYMOUS_ENABLED: "true"
+      GF_AUTH_ANONYMOUS_ORG_ROLE: Viewer
+      GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH: /var/lib/grafana/dashboards/sieve.json
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./grafana/dashboards:/var/lib/grafana/dashboards:ro
+    ports:
+      - "3000:3000"
